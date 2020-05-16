@@ -63,10 +63,3 @@ func (y *postYaml) getYamlTemplate() *postYaml {
 
 	return y
 }
-
-// func main() {
-// 	var y postYaml
-// 	y.getYamlTemplate()
-
-// 	fmt.Println(y)
-// }
