@@ -25,9 +25,17 @@ var newCmd = &cobra.Command{
 		var y postYaml
 		y.getYamlTemplate()
 
-		fmt.Println("Title:", y.Title)
-		fmt.Println("Post Date:", y.PostDate)
-		fmt.Println("Post ID:", y.Id)
+		// fmt.Println("Title:", y.Title)
+		// fmt.Println("Post Date:", y.PostDate)
+		// fmt.Println("Post ID:", y.Id)
+
+		postData := fmt.Sprintf("id: %s\ntitle: %s\npostDate:%s\n\n", y.Id, y.Title, y.PostDate)
+		fmt.Printf(postData)
+
+		fmt.Println("raw version:")
+		fmt.Println(getRawYamlHeader())
+
+		// ioutil.WriteFile("new-post.md")
 	},
 }
 
@@ -62,4 +70,13 @@ func (y *postYaml) getYamlTemplate() *postYaml {
 	}
 
 	return y
+}
+
+func getRawYamlHeader() string {
+	t, err := ioutil.ReadFile("./post-templates/post.yaml")
+	if err != nil {
+		log.Printf("yamlFile.Get err    #%v ", err)
+	}
+
+	return string(t)
 }
