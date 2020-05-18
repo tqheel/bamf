@@ -8,11 +8,9 @@ import (
 	"fmt"
 	"io/ioutil"
 	"log"
+	"os"
 
 	"github.com/spf13/cobra"
-
-	// "github.com/gomarkdown/markdown"
-	"gopkg.in/yaml.v2"
 )
 
 // newCmd represents the new command
@@ -21,21 +19,13 @@ var newCmd = &cobra.Command{
 	Short: "Create new blog post template in markdown format",
 	Long:  `Creates a new blog post template`,
 	Run: func(cmd *cobra.Command, args []string) {
-		fmt.Println("hello new post")
-		var y postYaml
-		y.getYamlTemplate()
 
-		// fmt.Println("Title:", y.Title)
-		// fmt.Println("Post Date:", y.PostDate)
-		// fmt.Println("Post ID:", y.Id)
-
-		postData := fmt.Sprintf("id: %s\ntitle: %s\npostDate:%s\n\n", y.Id, y.Title, y.PostDate)
-		fmt.Printf(postData)
-
-		fmt.Println("raw version:")
-		fmt.Println(getRawYamlHeader())
-
-		// ioutil.WriteFile("new-post.md")
+		postTemplate := getRawYamlHeader()
+		// Note have to grant read/write/execute permissions on destination folder on *nix file systems
+		err := ioutil.WriteFile("posts/new-post.md", postTemplate, os.ModeExclusive)
+		if err != nil {
+			fmt.Println(err)
+		}
 	},
 }
 
@@ -53,30 +43,11 @@ func init() {
 	// newCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-type postYaml struct {
-	Id       string `yaml:"id"`
-	Title    string `yaml:"title"`
-	PostDate string `yaml:"postDate"`
-}
-
-func (y *postYaml) getYamlTemplate() *postYaml {
-	yamlFile, err := ioutil.ReadFile("./post-templates/post.yaml")
-	if err != nil {
-		log.Printf("yamlFile.Get err    #%v ", err)
-	}
-	err = yaml.Unmarshal(yamlFile, y)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
-
-	return y
-}
-
-func getRawYamlHeader() string {
+func getRawYamlHeader() []byte {
 	t, err := ioutil.ReadFile("./post-templates/post.yaml")
 	if err != nil {
 		log.Printf("yamlFile.Get err    #%v ", err)
 	}
 
-	return string(t)
+	return t
 }
