@@ -36,9 +36,15 @@ to quickly create a Cobra application.`,
 		html := markdown.ToHTML(md, nil, nil)
 		fmt.Printf("%s", html)
 
-		// TODO: create func to read html template
-		getHtmlTemplate()
-		// iterate through each line
+		getHtmlTemplate().Find("section input").Each(func(i int, t *goquery.Selection) {
+			id := t.Get(0)
+			value := id.Attr[2].Val
+			fmt.Println(value)
+			// title := t.Get(1)
+			// fmt.Println(title)
+		})
+
+		// iterate through each lineS
 		// read header rows into yaml struct
 		// find hidden data elements and assign from properties of struct
 		// append body of converted markdown inside of main div tag
@@ -60,7 +66,7 @@ func init() {
 	// convertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
 }
 
-func getHtmlTemplate() {
+func getHtmlTemplate() *goquery.Document {
 	f, err := os.Open("post-templates/post.html")
 	if err != nil {
 		log.Fatal(err)
@@ -71,8 +77,8 @@ func getHtmlTemplate() {
 	if err != nil {
 		log.Fatal(err)
 	}
-	fmt.Printf(doc.Html())
-	fmt.Println()
+
+	return doc
 
 }
 
