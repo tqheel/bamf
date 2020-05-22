@@ -12,8 +12,8 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
-	"github.com/gomarkdown/markdown"
 	"github.com/spf13/cobra"
+	"golang.org/x/net/html"
 	"gopkg.in/yaml.v2"
 )
 
@@ -31,22 +31,37 @@ to quickly create a Cobra application.`,
 		mdf := getMarkdown("posts/new-post.md")
 
 		headerLines := getHeaderLines(mdf)
-		fmt.Printf("%s", headerLines)
-		md := getBodyLines(mdf)
-		html := markdown.ToHTML(md, nil, nil)
-		fmt.Printf("%s", html)
+		var y postYaml
+		y.getYamlAsStruct(headerLines)
+		// md := getBodyLines(mdf)
+		// htmlFromMd := markdown.ToHTML(md, nil, nil)
 
+		var id, title, postDate *html.Node
 		getHtmlTemplate().Find("section input").Each(func(i int, t *goquery.Selection) {
-			id := t.Get(0)
-			value := id.Attr[2].Val
-			fmt.Println(value)
-			// title := t.Get(1)
-			// fmt.Println(title)
-		})
+			element := t.Get(0)
+			if i == 0 {
+				id = element
+				id.Attr[2].Val = y.Id
+			}
+			if i == 1 {
+				title = element
+				title.Attr[2].Val = y.Title
+			}
+			if i == 2 {
+				postDate = element
+				postDate.Attr[2].Val = y.PostDate
+			}
 
-		// iterate through each lineS
+		})
+		fmt.Println(id)
+		fmt.Println(title)
+		fmt.Println(postDate)
+
+		// iterate through each line
 		// read header rows into yaml struct
-		// find hidden data elements and assign from properties of struct
+		// find hidde
+
+		// n data elements and assign from properties of struct
 		// append body of converted markdown inside of main div tag
 
 	},
@@ -127,15 +142,15 @@ type postYaml struct {
 	PostDate string `yaml:"postDate"`
 }
 
-func (y *postYaml) getYamlTemplate() *postYaml {
-	yamlFile, err := ioutil.ReadFile("./post-templates/post.yaml")
-	if err != nil {
-		log.Printf("yamlFile.Get err    #%v ", err)
-	}
-	err = yaml.Unmarshal(yamlFile, y)
-	if err != nil {
-		log.Fatalf("Unmarshal: %v", err)
-	}
+func (y *postYaml) getYamlAsStruct(rawBytes []byte) *postYaml {
+	// yamlFile, err := ioutil.ReadFile("./post-templates/post.yaml")
+	// if err != nil {
+	// 	log.Printf("yamlFile.Get err    #%v ", err)
+	// }
+	yaml.Unmarshal(rawBytes, y)
+	// if err != nil {
+	// 	log.Fatalf("Unmarshal: %v", err)
+	// }
 
 	return y
 }
