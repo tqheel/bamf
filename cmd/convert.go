@@ -5,6 +5,7 @@ Copyright © 2020 Todd E. Qualls <tqualls@gmail.com>
 package cmd
 
 import (
+	"bytes"
 	"fmt"
 	"io/ioutil"
 	"log"
@@ -12,6 +13,7 @@ import (
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
+	"github.com/gomarkdown/markdown"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/html"
 	"gopkg.in/yaml.v2"
@@ -28,16 +30,20 @@ Cobra is a CLI library for Go that empowers applications.
 This application is a tool to generate the needed files
 to quickly create a Cobra application.`,
 	Run: func(cmd *cobra.Command, args []string) {
-		mdf := getMarkdown("posts/new-post.md")
+		mdf := "posts/new-post.md"
+		md := getMarkdown(mdf)
 
-		headerLines := getHeaderLines(mdf)
+		headerLines := getHeaderLines(md)
 		var y postYaml
 		y.getYamlAsStruct(headerLines)
-		// md := getBodyLines(mdf)
-		// htmlFromMd := markdown.ToHTML(md, nil, nil)
+
+		mdBody := getBodyLines(md)
+		htmlFromMd := markdown.ToHTML(mdBody, nil, nil)
+
+		htmlTemplate := getHtmlTemplate()
 
 		var id, title, postDate *html.Node
-		getHtmlTemplate().Find("section input").Each(func(i int, t *goquery.Selection) {
+		htmlTemplate.Find("section input").Each(func(i int, t *goquery.Selection) {
 			element := t.Get(0)
 			if i == 0 {
 				id = element
@@ -53,13 +59,10 @@ to quickly create a Cobra application.`,
 			}
 
 		})
-		fmt.Println(id)
-		fmt.Println(title)
-		fmt.Println(postDate)
 
-		// iterate through each line
-		// read header rows into yaml struct
-		// find hidde
+		div := htmlTemplate.Find("section div").First()
+		appendDivContent(div, htmlFromMd)
+		fmt.Println(htmlTemplate.Html())
 
 		// n data elements and assign from properties of struct
 		// append body of converted markdown inside of main div tag
@@ -79,6 +82,18 @@ func init() {
 	// Cobra supports local flags which will only run when this command
 	// is called directly, e.g.:
 	// convertCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+}
+
+func appendDivContent(div *goquery.Selection, newPostBody []byte) {
+	r := bytes.NewReader(newPostBody)
+	bodyDoc, err := goquery.NewDocumentFromReader(r)
+	if err != nil {
+		log.Fatalf("THere was an error before the div append: %v", err)
+	}
+	n := bodyDoc.First().Get(0)
+
+	div.AppendNodes(n)
+
 }
 
 func getHtmlTemplate() *goquery.Document {
@@ -130,10 +145,6 @@ func getBodyLines(rawBytes []byte) []byte {
 	}
 	buf = append(buf, "\n"...)
 	return buf
-}
-
-func readHtmlTemplate() {
-	// TODO: read html template file and return []byte
 }
 
 type postYaml struct {
