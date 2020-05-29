@@ -23,4 +23,14 @@ A short overview of how this blog works:
 6. A browser gets a request for the Angular.js blog route from the user.
 7. My new post shows up on the blog page at the top.
 
-Is it something worth learning? I
+I was driven to create this completely text-based blog, because I wanted complete control of my content, and I had grown tired of maintaing databases and database servers. Schema updates and migrations are for the birds. Yeah, I know. NoSQL. Sure but I didn't want to have to host that either. So, I came up with the idea to just push the new post to source control, and let the cloud-build take care of the rest. No SQL. No NoSQL. [No stinking badges](https://www.youtube.com/watch?v=Dln7yj8MDWE).
+
+So then it became cumbersome to have to hand-code the HTML for the post. I developed a template generator script using Typescript, but I still had to hand-code the inner-HTML. I figured I would start coding my new posts in Markdown, and then have the blog engine convert the Markdown to HTML before sending it over to the browser.
+
+That would have actually have been fairly trivial to implement in the Node backend. But why do it the easy way, when I could learn a whole new language and over-engineer the whole process?
+
+So the [bamf-cli tool](https://github.com/tqheel/bamf), written in golang was born.
+
+Is Go something worth learning? The jury's still out on that one. I learned a lot, but I could have done the same thing in using Node with Commander, or with C# in a lot less time.
+
+But it was a fun diversion, and now I can write blog posts (like this one), in Markdown and then let Git take the converted file all the way to the cloud in under two minutes.
