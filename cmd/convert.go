@@ -22,7 +22,7 @@ import (
 // convertCmd represents the convert command
 var convertCmd = &cobra.Command{
 	Use:   "convert",
-	Short: "A brief description of your command",
+	Short: "Convert the md post file to html.",
 	Long: `A longer description that spans multiple lines and likely contains examples
 and usage of using your command. For example:
 
@@ -162,14 +162,8 @@ type postYaml struct {
 }
 
 func (y *postYaml) getYamlAsStruct(rawBytes []byte) *postYaml {
-	// yamlFile, err := ioutil.ReadFile("./post-templates/post.yaml")
-	// if err != nil {
-	// 	log.Printf("yamlFile.Get err    #%v ", err)
-	// }
+
 	yaml.Unmarshal(rawBytes, y)
-	// if err != nil {
-	// 	log.Fatalf("Unmarshal: %v", err)
-	// }
 
 	return y
 }
