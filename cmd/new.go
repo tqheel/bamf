@@ -19,7 +19,6 @@ var newCmd = &cobra.Command{
 	Short: "Create new blog post template in markdown format",
 	Long:  `Creates a new blog post template`,
 	Run: func(cmd *cobra.Command, args []string) {
-
 		postTemplate := getRawYamlHeader()
 		// Note have to grant read/write/execute permissions on destination folder on *nix file systems
 		err := ioutil.WriteFile("posts/new-post.md", postTemplate, os.ModeExclusive)

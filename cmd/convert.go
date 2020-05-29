@@ -62,10 +62,18 @@ to quickly create a Cobra application.`,
 
 		div := htmlTemplate.Find("section div").First()
 		appendDivContent(div, htmlFromMd)
-		fmt.Println(htmlTemplate.Html())
-
-		// n data elements and assign from properties of struct
-		// append body of converted markdown inside of main div tag
+		h, err := htmlTemplate.Html()
+		if err != nil {
+			log.Fatal(err)
+		}
+		h = strings.ReplaceAll(h, "<html><head></head><body>", "")
+		h = strings.ReplaceAll(h, "</body></html>", "")
+		nf := strings.ReplaceAll(mdf, ".md", ".html")
+		err = ioutil.WriteFile(nf, []byte(h), os.ModeExclusive)
+		if err != nil {
+			log.Fatal(err)
+		}
+		fmt.Printf("File %s Markdown converted to HTML and saved to file %s!\n", mdf, nf)
 
 	},
 }

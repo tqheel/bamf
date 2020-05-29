@@ -1,0 +1,38 @@
+<section>
+    <input id="id" type="hidden" value="20200528"/>
+    <input id="title" type="hidden" value="CLI Tool For my Blog Written in Go"/>
+    <input id="post-date" type="hidden" value="May 28, 2020"/>
+    <div>
+        
+    <p>I recently moved from app development at LexisNexis to the DevOps group, officially known as Platform Engineering.</p>
+
+<p>DevOpsy type things is really about the only types of things that I have done in about two years, so the change really makes sense.</p>
+
+<p>The Plaftorm Engineering organization has been doing some work in <a href="https://golang.org">Go</a>, so I thought that I would take a look at the language and see if it’s something worth learning. To make that determination, I figured I would use golang to do something that I have been wanting to do for a while as a personal project: create a command line tool for
+this blog.</p>
+
+<p>Why do I need a command line tool for a blog, you say? Well, I don’t really. This blog has never been about what I should do or what I need to do. I mean there are a gazillion (real word) blog platforms and content management systems out there. Did that stop me from writing my own blogging platform from scratch? Nooooooo it didn’t.</p>
+
+<p>So I wrote a command line tool for this blog too. Just for the fun of it and to learn a little bit about golang.</p>
+
+<p>A short overview of how this blog works:</p>
+
+<ol>
+<li>I drop a hand coded HTML partial (a new post) into a certain directory and push to an AzureDevOps Git repo.</li>
+<li>The commit to the Git master branch triggers the Node app build.</li>
+<li>A Docker image is built that contains the new blog post.</li>
+<li>The new Docker image for the blog back end is pushed to an Azure image registry.</li>
+<li>The final step in the build reloads the container with the latest image on Azure.</li>
+<li>A browser gets a request for the Angular.js blog route from the user.</li>
+<li>My new post shows up on the blog page at the top.</li>
+</ol>
+
+<p>Is it something worth learning? I</p>
+</div>
+    <footer style="display: none">
+    	<a href="#" target="">
+	    	<span class="fa fa-twitter"></span>
+	    	Discuss this post on Twitter
+    	</a>
+    </footer>
+</section>
