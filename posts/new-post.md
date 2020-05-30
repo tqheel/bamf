@@ -12,5 +12,8 @@ CDs had started to be pretty popular in those days, but I remember using my dual
 
 Uncle Dave influenced me in a number of ways growing up, and he knew enough about me to predict that I would love *Quadrophenia*. He himself was in college during the time when "Classic Rock" was not yet a classic, and I imagine he has an original copy of *Quodrophenia* on vinyl.
 
+I was already familiar with the "concept album", most notably via Pink Floyd's *The Wall*. But even after a single listen to *Quadophenia* I decided that *The Wall*, while strong in it's own right (*The Wall* also made my [influencers list](/#/blog/20200509)), was highly influenced by *Quadrophenia*.
 
+I don't remember if I already had *Who's Next* in my collection (which is quite possibly my favorite album of all time), but it certainly caused me to reconsider who my favorite band was. In those days, the top three were: Led Zeppelin, The Doors, and Pink Floyd, though the order of those would vary for any given day. The Who had certainly gained my respect as one of the most creative and influential bands of all time.
 
+A few weeks ago, a random play list generated from my mp3 music collection included *Love, Reign o'er Me* from *Quadrophenia*. That prompted me to give the album as a whole a complete listen end to end. It still holds up well. If you've never heard the entire album a complete listen, and you like the music of the Who, I encourage you to check it out in it's entirety, with headphones. The music will take you to another realm.
