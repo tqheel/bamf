@@ -9,7 +9,9 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"runtime"
 
+	"github.com/hectane/go-acl"
 	"github.com/spf13/cobra"
 )
 
@@ -19,12 +21,25 @@ var newCmd = &cobra.Command{
 	Short: "Create new blog post template in markdown format",
 	Long:  `Creates a new blog post template`,
 	Run: func(cmd *cobra.Command, args []string) {
+		newMdFile := "posts/new-post.md"
 		postTemplate := getRawYamlHeader()
 		// Note have to grant read/write/execute permissions on destination folder on *nix file systems
-		err := ioutil.WriteFile("posts/new-post.md", postTemplate, os.ModeExclusive)
+		err := ioutil.WriteFile(newMdFile, postTemplate, os.ModeExclusive)
 		if err != nil {
 			fmt.Println(err)
 		}
+		if runtime.GOOS == "windows" {
+			err := acl.Chmod(newMdFile, 0777)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			err := os.Chmod(newMdFile, 0777)
+			if err != nil {
+				panic(err)
+			}
+		}
+
 	},
 }
 

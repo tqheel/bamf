@@ -10,10 +10,12 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"runtime"
 	"strings"
 
 	"github.com/PuerkitoBio/goquery"
 	"github.com/gomarkdown/markdown"
+	"github.com/hectane/go-acl"
 	"github.com/spf13/cobra"
 	"golang.org/x/net/html"
 	"gopkg.in/yaml.v2"
@@ -72,6 +74,17 @@ to quickly create a Cobra application.`,
 		err = ioutil.WriteFile(nf, []byte(h), os.ModeExclusive)
 		if err != nil {
 			log.Fatal(err)
+		}
+		if runtime.GOOS == "windows" {
+			err := acl.Chmod(nf, 0777)
+			if err != nil {
+				panic(err)
+			}
+		} else {
+			err := os.Chmod(nf, 0777)
+			if err != nil {
+				panic(err)
+			}
 		}
 		fmt.Printf("File %s Markdown converted to HTML and saved to file %s!\n", mdf, nf)
 
